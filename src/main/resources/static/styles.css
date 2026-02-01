@@ -1,0 +1,81 @@
+/* General layout */
+body {
+    font-family: Arial, sans-serif;
+    margin: 2rem;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+h1, h2 {
+    color: #444;
+}
+
+/* Navigation bar */
+nav {
+    background-color: #007acc;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 1rem;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Forms and buttons */
+form, table, div {
+    margin-top: 1rem;
+}
+
+input, button {
+    padding: 0.5rem;
+    margin: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #007acc;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #005fa3;
+}
+
+/* Tables */
+.styled-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.styled-table th, .styled-table td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+}
+
+.styled-table th {
+    background-color: #eee;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+}
+
+table th {
+    background-color: #eee;
+}
