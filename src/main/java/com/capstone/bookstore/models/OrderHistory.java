@@ -9,16 +9,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "OrderTable")
+@Table(name = "OrderHistoryTable")
 public class OrderHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long order_id;
+    private Long orderHistoryId;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookOrders> orderList;
-
+    // Foreign key referencing the User
+    // that this Order History belongs to
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     private User user;
@@ -28,4 +27,11 @@ public class OrderHistory {
 
     @Column(nullable = false)
     private String order_date;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookOrders> orderList;
+
+    @OneToMany(mappedBy = "orderHistory", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderCart> orderCarts;
+
 }

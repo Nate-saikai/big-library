@@ -25,17 +25,23 @@ public class OrderCart {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @NotNull
-    @Column(nullable = false)
+    @Column
     private LocalDateTime updatedAt;
 
     @NotBlank
     @Column(nullable = false)
-    private String status; // ACTIVE, CHECKED_OUT, ABANDONED
+    private String status = "ACTIVE"; // ACTIVE, CHECKED_OUT, ABANDONED
 
+    // Foreign key referencing the User
+    // that this cart belongs to
     @OneToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
+
+    // Foreign key referencing the Order History
+    // that this cart belongs to
+    @ManyToOne
+    private OrderHistory orderHistory;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     private List<CartItem> cartItems;

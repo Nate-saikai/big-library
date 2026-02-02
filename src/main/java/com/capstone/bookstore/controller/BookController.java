@@ -29,7 +29,7 @@ public class BookController {
         List<Book> library = bookLibrary.getAllBooks();
 
         if (library.isEmpty()){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok(null);
         }
 
         List<BookDto> bookDto = library.stream()

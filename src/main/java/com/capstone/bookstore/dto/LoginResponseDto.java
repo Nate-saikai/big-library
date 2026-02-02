@@ -1,3 +1,7 @@
 package com.capstone.bookstore.dto;
 
-public record LoginResponseDto (Long userId, String username, String token ) {}
+public record LoginResponseDto (
+        Long userId,
+        String username,
+        String token
+) {}

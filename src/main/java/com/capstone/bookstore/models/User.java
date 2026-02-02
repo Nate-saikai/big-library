@@ -22,13 +22,6 @@ public class User {
     @Column(nullable = false, unique = true)
     private String userName;
 
-    // Just an incredibly basic user table
-    // no need for email
-
-//    @NotBlank
-//    @Column(nullable = false, unique = true)
-//    private String email;
-
     @NotBlank
     @Column(nullable = false)
     private String passwordHash;
@@ -48,6 +41,7 @@ public class User {
     // Comment to remind me that this is
     // NOT A PHYSICAL COLUMN IN THE TABLE
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderHistory> orderList;
+    private List<OrderHistory> orderHistory;
+    
 
 }

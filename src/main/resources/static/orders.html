@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
-<head><title>Orders</title></head>
+<html>
+<head>
+    <title>Orders</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
 <body>
-<h2>Orders</h2>
-<label for="bookId"></label><input type="text" id="bookId" placeholder="Book ID">
-<button onclick="addItem()">Add to Cart</button>
-<button onclick="removeItem()">Remove from Cart</button>
+<div id="navbar"></div>
 
-<script src="scripts/orders.js"></script>
+<h2>Orders</h2>
+<input type="text" id="bookId" placeholder="Book ID">
+<button onclick="addItem()">Add Item</button>
+<button onclick="removeItem()">Remove Item</button>
+<button onclick="checkout()">Checkout</button>
+
+<table id="checkoutTable"></table>
+
+<script src="/scripts/helper.js"></script>
+<script src="/scripts/orders.js"></script>
 </body>
 </html>

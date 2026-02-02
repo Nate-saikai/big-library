@@ -3,7 +3,7 @@ package com.capstone.bookstore.models;
 // THIS TABLE IS DEPRECATED DO NOT USE
 
 /*
-    This exists as a junction table between Order Table and Book Table
+    This exists as a junction table between OrderHistory Table and Book Table
  */
 
 import jakarta.persistence.*;
@@ -31,8 +31,6 @@ public class BookOrders {
     @ManyToOne
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
-
-    private Integer quantity;
 
     // No Args Constructor provided by Lombok
     // Getters and Setters provided by Lombok
