@@ -28,9 +28,6 @@ public class OrderHistory {
     @Column(nullable = false)
     private String order_date;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookOrders> orderList;
-
     @OneToMany(mappedBy = "orderHistory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderCart> orderCarts;
 

@@ -28,15 +28,11 @@ public class BookController {
 
         List<Book> library = bookLibrary.getAllBooks();
 
-        if (library.isEmpty()){
-            return ResponseEntity.ok(null);
-        }
-
         List<BookDto> bookDto = library.stream()
                 .map(book -> new BookDto(
                         book.getBookId(),
                         book.getBookCode(),
-                        book.getCategory(),
+                        book.getCategory().getCategory(),
                         book.getBookName(),
                         book.getAuthor(),
                         book.getPublish_date(),

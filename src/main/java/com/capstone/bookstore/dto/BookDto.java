@@ -5,7 +5,7 @@ import com.capstone.bookstore.models.BookCategory;
 public record BookDto(
         Long bookId,
         String bookCode,
-        BookCategory category,
+        String category,
         String bookName,
         String author,
         String publish_date,

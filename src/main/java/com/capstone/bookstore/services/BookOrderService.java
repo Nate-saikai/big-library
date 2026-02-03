@@ -45,11 +45,10 @@ public class BookOrderService {
      *
      * @param bookId
      * @param quantityToAdd
-     * @param token
      * @return {@link OrderRequestDto} pointing to latest added book, regardless if incremented or not
      * @throws RuntimeException
      */
-    public OrderRequestDto addBookToOrderCart(Long bookId, int quantityToAdd, String token) throws RuntimeException {
+    public OrderRequestDto addBookToOrderCart(Long bookId, int quantityToAdd) throws RuntimeException {
 
         if (!AuthUtil.isAuthenticated()) {
             throw new RuntimeException("Invalid Session!");
@@ -98,10 +97,9 @@ public class BookOrderService {
     /**
      *
      * @param bookId
-     * @param token
      * @return {@link Book} if successful, {@code null} if not found
      */
-    public Book removeBookFromOrderCart(Long bookId, String token) {
+    public Book removeBookFromOrderCart(Long bookId) {
 
         if (!AuthUtil.isAuthenticated()) {
             throw new RuntimeException("Invalid Session!");
@@ -132,10 +130,9 @@ public class BookOrderService {
 
     /**
      *
-     * @param token
      * @return {@link List} of {@link CartItem} upon checkout, for viewing
      */
-    public List<CartItem> checkout(String token) {
+    public List<CartItem> checkout() {
 
         if (!AuthUtil.isAuthenticated()) {
             throw new RuntimeException("Invalid Session!");

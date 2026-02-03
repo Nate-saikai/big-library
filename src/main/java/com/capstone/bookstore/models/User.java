@@ -19,23 +19,23 @@ public class User {
     private Long userId;
 
     @NotBlank
-    @Column(nullable = false, unique = true)
+    @Column(name = "userName", nullable = false, unique = true)
     private String userName;
 
     @NotBlank
-    @Column(nullable = false)
+    @Column(name = "passwordHash", nullable = false)
     private String passwordHash;
 
     // LocalDateTime set upon creation
     // Uses LocalDateTime.now()
 
-    @Column(nullable = false)
+    @Column(name = "createdAt", nullable = false)
     private LocalDateTime createdAt;
 
     // useless column right now, needs
     // implementation of change password
     // in services and controller endpoint
-    @Column
+    @Column(name = "updatedAt")
     private LocalDateTime updatedAt;
 
     // Comment to remind me that this is

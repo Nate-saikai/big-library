@@ -39,12 +39,6 @@ public class UserController {
 
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login() {
-        // Spring Security handles authentication automatically via formLogin
-        return ResponseEntity.ok("Login successful");
-    }
-
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {

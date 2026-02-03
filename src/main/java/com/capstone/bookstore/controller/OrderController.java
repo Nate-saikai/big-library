@@ -39,20 +39,18 @@ public class OrderController {
     }
 
     @PostMapping("/addItem")
-    public ResponseEntity<?> addBookToOrderCart(@RequestHeader("Authorization") String authHeader, @RequestBody Long bookId) {
+    public ResponseEntity<?> addBookToOrderCart(@RequestBody Long bookId) {
 
-        String token = authHeader.replace("Bearer ", "");
-        OrderRequestDto dto = bookOrderService.addBookToOrderCart(bookId, 1, token);
+        OrderRequestDto dto = bookOrderService.addBookToOrderCart(bookId, 1);
 
         return ResponseEntity.ok().body(dto);
 
     }
 
     @DeleteMapping("/deleteItem")
-    public String removeBookFromOrderCart(@RequestHeader("Authorization") String authHeader, @RequestBody Long bookId) {
+    public String removeBookFromOrderCart(@RequestBody Long bookId) {
 
-        String token = authHeader.replace("Bearer ", "");
-        Book removedBook = bookOrderService.removeBookFromOrderCart(bookId, token);
+        Book removedBook = bookOrderService.removeBookFromOrderCart(bookId);
 
         if(removedBook == null) {
             return "This book does not exist";
