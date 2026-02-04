@@ -7,7 +7,6 @@ package com.capstone.bookstore.services;
  */
 
 import com.capstone.bookstore.models.Book;
-import com.capstone.bookstore.models.BookCategory;
 
 import java.util.List;
 
@@ -18,8 +17,6 @@ public interface BookSearchFunctions {
     Book getBookById(Long bookId);
 
     Book getBookByAuthor(String author);
-
-    BookCategory getBookCategory(String bookName);
 
     Book getBookByName(String bookName);
 

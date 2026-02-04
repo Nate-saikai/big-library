@@ -1,17 +1,17 @@
 package com.capstone.bookstore.controller;
 
-import com.capstone.bookstore.dto.OrderRequestDto;
+import com.capstone.bookstore.dto.OrderDto;
 import com.capstone.bookstore.models.Book;
 import com.capstone.bookstore.models.CartItem;
 import com.capstone.bookstore.models.OrderCart;
 import com.capstone.bookstore.repositories.CartItemRepository;
+import com.capstone.bookstore.security.AuthUtil;
 import com.capstone.bookstore.services.BookOrderService;
 import com.capstone.bookstore.services.OrderCartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -28,10 +28,9 @@ public class OrderController {
     }
 
     @GetMapping("/cart")
-    public ResponseEntity<?> getCurrentCart(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<?> getCurrentCart() {
 
-        String token = authHeader.replace("Bearer ", "");
-        OrderCart cart = orderCartService.getUserActiveCart(token);
+        OrderCart cart = orderCartService.getUserActiveCart();
 
         List<Book> bookList = cart.getCartItems().stream().map(CartItem::getBook).toList();
 
@@ -41,7 +40,7 @@ public class OrderController {
     @PostMapping("/addItem")
     public ResponseEntity<?> addBookToOrderCart(@RequestBody Long bookId) {
 
-        OrderRequestDto dto = bookOrderService.addBookToOrderCart(bookId, 1);
+        OrderDto dto = bookOrderService.addBookToOrderCart(bookId, 1);
 
         return ResponseEntity.ok().body(dto);
 

@@ -16,7 +16,7 @@ public class OrderCartService {
     private final UserRepository userRepository;
     private final OrderCartRepository orderCartRepository;
 
-    public OrderCart getUserActiveCart(String token) {
+    public OrderCart getUserActiveCart() {
 
         if (!AuthUtil.isAuthenticated()) {
             throw new RuntimeException("Invalid Session!");

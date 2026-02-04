@@ -1,6 +1,8 @@
 package com.capstone.bookstore.models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +32,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)
+    @JsonBackReference
     private BookCategory category;
 
     @Column(nullable = false, unique = true)

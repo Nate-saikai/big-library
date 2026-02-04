@@ -1,9 +1,7 @@
 package com.capstone.bookstore.services;
 
 import com.capstone.bookstore.models.Book;
-import com.capstone.bookstore.models.BookCategory;
 import com.capstone.bookstore.repositories.BookRepository;
-import com.capstone.bookstore.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,22 +10,19 @@ import java.util.List;
 public class BookSearchService implements BookSearchFunctions {
 
     private final BookRepository bookRepository;
-    private final CategoryRepository categoryRepository;
 
-    public BookSearchService(BookRepository bookRepository, CategoryRepository categoryRepository) {
+    public BookSearchService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
-        this.categoryRepository = categoryRepository;
     }
 
     @Override
-    public List<Book> getAllBooks(){
+    public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
-    public List<Book> getAllBooksByCategory(String category){
-        return bookRepository.findBooksByCategory(
-                categoryRepository.getBookCategoryByCategory(category)
-        );
+    public List<Book> getAllBooksByCategoryName(String categoryName) {
+
+        return bookRepository.searchBooksByCategory_CategoryNameIgnoreCase(categoryName);
     }
 
     @Override
@@ -41,14 +36,7 @@ public class BookSearchService implements BookSearchFunctions {
     }
 
     @Override
-    public BookCategory getBookCategory(String bookName) {
-        Book book = bookRepository.searchBookByBookName(bookName);
-
-        return book.getCategory();
-    }
-
-    @Override
-    public Book getBookByName(String bookName){
+    public Book getBookByName(String bookName) {
         return bookRepository.searchBookByBookName(bookName);
     }
 

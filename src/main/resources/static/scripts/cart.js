@@ -16,15 +16,15 @@ async function loadCart() {
 
         items.forEach(item => {
             const row = table.insertRow();
-            row.insertCell().textContent = item.book.bookId;
-            row.insertCell().textContent = item.book.bookName;
-            row.insertCell().textContent = item.book.author;
+            row.insertCell().textContent = item.bookCode;
+            row.insertCell().textContent = item.bookName;
+            row.insertCell().textContent = item.author;
             row.insertCell().textContent = item.quantity;
 
             const actionCell = row.insertCell();
             const btn = document.createElement("button");
             btn.textContent = "Remove";
-            btn.onclick = () => removeItem(item.book.bookId);
+            btn.onclick = () => removeItem(item.bookId);
             actionCell.appendChild(btn);
         });
     } catch (err) {
@@ -44,8 +44,8 @@ async function removeItem(bookId) {
         if (!res.ok) throw new Error(await res.text());
         const data = await res.text();
         alert("Removed: " + data);
-        updateCartCounter();
-        loadCart(); // refresh cart
+        //await updateCartCounter();
+        await loadCart(); // refresh cart
     } catch (err) {
         alert("Failed to remove item: " + err.message);
     }

@@ -1,9 +1,12 @@
 package com.capstone.bookstore.controller;
 
+import com.capstone.bookstore.dto.BookCategoryDto;
 import com.capstone.bookstore.dto.BookDto;
 import com.capstone.bookstore.models.Book;
+import com.capstone.bookstore.models.BookCategory;
 import com.capstone.bookstore.repositories.CategoryRepository;
 import com.capstone.bookstore.services.BookSearchService;
+import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +35,7 @@ public class BookController {
                 .map(book -> new BookDto(
                         book.getBookId(),
                         book.getBookCode(),
-                        book.getCategory().getCategory(),
+                        book.getCategory().getCategoryName(),
                         book.getBookName(),
                         book.getAuthor(),
                         book.getPublish_date(),
@@ -58,14 +61,28 @@ public class BookController {
     }
 
     @GetMapping("/category")
-    public ResponseEntity<List<Book>> getBooksByCategory(@RequestParam("category") String category) {
-        if(!categoryRepository.existsByCategoryIgnoreCase(category)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ResponseEntity<List<Book>> getBooksByCategoryName(@RequestParam("category") String categoryName) {
+
+//        try {
+//            if (!categoryRepository.existsByCategoryNameIgnoreCase(categoryName)) {
+//                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//            }
+//        } catch (PropertyReferenceException e) {
+//            System.err.println("Repository method failed: existsByCategoryNameIgnoreCase");
+//            e.printStackTrace();
+//            return ResponseEntity.ok(List.of());
+//        }
+
+        List<Book> library = null;
+        try {
+            library = bookLibrary.getAllBooksByCategoryName(categoryName);
+        } catch (PropertyReferenceException e) {
+            System.err.println("Repository method failed: searchBooksByCategory_CategoryNameIgnoreCase");
+            e.printStackTrace();
+            return ResponseEntity.ok(List.of());
         }
 
-        List<Book> library = bookLibrary.getAllBooksByCategory(category);
-
-        return ResponseEntity.ok().body(library);
+        return ResponseEntity.ok(library);
     }
 
     @GetMapping("/author")
@@ -87,7 +104,21 @@ public class BookController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().body(book.getCategory().getCategory());
+        return ResponseEntity.ok().body(book.getCategory().getCategoryName());
+    }
+
+    @GetMapping("/category/list")
+    public List<BookCategoryDto> getAllCategories() {
+
+        List<BookCategory> bookCategories = categoryRepository.findAll();
+        List<BookCategoryDto> bookCategoryDtos = bookCategories.stream()
+                .map(bookCategory -> new BookCategoryDto(
+                        bookCategory.getCategory_id(),
+                        bookCategory.getCategoryName()
+                ))
+                .toList();
+
+        return bookCategoryDtos;
     }
 
 }

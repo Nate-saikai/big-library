@@ -1,8 +1,7 @@
 package com.capstone.bookstore.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -18,9 +17,10 @@ public class BookCategory {
     private Long category_id;
 
     @Column(nullable = false, unique = true)
-    private String category;
+    private String categoryName;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Book> bookList;
 
 }

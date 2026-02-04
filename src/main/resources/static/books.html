@@ -8,7 +8,17 @@
 <div id="navbar"></div>
 
 <h2>Books</h2>
+
+<!-- Category filter -->
+<label for="categorySelect">Filter by Category:</label>
+<select id="categorySelect">
+  <option value="">All</option>
+  <!-- categories will be populated dynamically -->
+</select>
+<button id="filterBtn">Apply Filter</button>
+
 <table id="booksTable"></table>
+<div id="pagination"></div>
 
 <script src="/scripts/helper.js"></script>
 <script src="/scripts/books.js"></script>

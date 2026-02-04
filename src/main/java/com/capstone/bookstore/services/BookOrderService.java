@@ -1,6 +1,6 @@
 package com.capstone.bookstore.services;
 
-import com.capstone.bookstore.dto.OrderRequestDto;
+import com.capstone.bookstore.dto.OrderDto;
 import com.capstone.bookstore.models.*;
 import com.capstone.bookstore.repositories.*;
 import com.capstone.bookstore.security.AuthUtil;
@@ -22,6 +22,7 @@ public class BookOrderService {
     private final UserRepository userRepository;
     private final CartItemRepository cartItemRepository;
     private final BookSearchService bookSearchService;
+    private final CategoryRepository categoryRepository;
 
     /**
      *
@@ -32,23 +33,24 @@ public class BookOrderService {
      * @param cartItemRepository
      * @param bookSearchService
      */
-    public BookOrderService(OrderHistoryRepository orderHistoryRepository, BookRepository bookRepository, OrderCartRepository orderCartRepository, UserRepository userRepository, CartItemRepository cartItemRepository, BookSearchService bookSearchService) {
+    public BookOrderService(OrderHistoryRepository orderHistoryRepository, BookRepository bookRepository, OrderCartRepository orderCartRepository, UserRepository userRepository, CartItemRepository cartItemRepository, BookSearchService bookSearchService, CategoryRepository categoryRepository) {
         this.orderHistoryRepository = orderHistoryRepository;
         this.bookRepository = bookRepository;
         this.orderCartRepository = orderCartRepository;
         this.userRepository = userRepository;
         this.cartItemRepository = cartItemRepository;
         this.bookSearchService = bookSearchService;
+        this.categoryRepository = categoryRepository;
     }
 
     /**
      *
-     * @param bookId
-     * @param quantityToAdd
-     * @return {@link OrderRequestDto} pointing to latest added book, regardless if incremented or not
-     * @throws RuntimeException
+     * @param bookId - value for the book id, is unique {@link Long}
+     * @param quantityToAdd - value to add {@code int}
+     * @return {@link OrderDto} -- pointing to latest added book, regardless if incremented or not
+     * @throws RuntimeException - failed to add a book due to (usually) missing
      */
-    public OrderRequestDto addBookToOrderCart(Long bookId, int quantityToAdd) throws RuntimeException {
+    public OrderDto addBookToOrderCart(Long bookId, int quantityToAdd) throws RuntimeException {
 
         if (!AuthUtil.isAuthenticated()) {
             throw new RuntimeException("Invalid Session!");
@@ -73,6 +75,7 @@ public class BookOrderService {
                     return orderCartRepository.save(newCart);
                 });
 
+
         // Check if this book is already in the order cart
         Optional<CartItem> existing = cart.getCartItems().stream()
                 .filter(ob -> ob.getBook().getBookId().equals(bookId))
@@ -87,11 +90,13 @@ public class BookOrderService {
             CartItem bookItem = new CartItem();
             bookItem.setBook(book);
             bookItem.setQuantity(quantityToAdd);
+            bookItem.setCart(cart);
             cart.getCartItems().add(bookItem);
             orderCartRepository.save(cart);
         }
 
-        return new OrderRequestDto(cart.getCartItems().getLast().getBook(), LocalDateTime.now());
+
+        return new OrderDto(cart.getCartItems().getLast().getBook(), LocalDateTime.now());
     }
 
     /**
@@ -120,6 +125,8 @@ public class BookOrderService {
         if(existing.isPresent()) {
             Book bookToBeRemoved = bookSearchService.getBookById(bookId);
             cartItemRepository.removeCartItemByBook(bookToBeRemoved);
+            cart.getCartItems().remove(existing.get()); // remove from parent list
+            orderCartRepository.save(cart); // so that hibernate sees the orphan removal
             return bookToBeRemoved;
         }
         else {
